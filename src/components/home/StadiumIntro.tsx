@@ -89,32 +89,75 @@ export default function StadiumIntro({
           style={{ opacity: pitchOpacity }}
           className="absolute inset-0"
         >
-          {/* Sky */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3f] via-[#14336b] to-[#1a5e2a]" />
+          {/* Night sky */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#03081c] via-[#0a1a3f] to-[#14336b]" />
 
-          {/* Floodlights */}
-          <motion.div style={{ opacity: floodlightOpacity }} className="absolute inset-0">
-            <div className="absolute top-6 left-[8%] h-40 w-2 bg-white/20" />
-            <div className="absolute top-6 left-[8%] h-24 w-24 -translate-x-1/2 rounded-full bg-white/30 blur-2xl" />
-            <div className="absolute top-6 right-[8%] h-40 w-2 bg-white/20" />
-            <div className="absolute top-6 right-[8%] h-24 w-24 translate-x-1/2 rounded-full bg-white/30 blur-2xl" />
-          </motion.div>
-
-          {/* Crowd */}
+          {/* Far stand (curved upper tier) */}
           <motion.div
             style={{ opacity: crowdOpacity }}
-            className="absolute top-0 left-0 right-0 h-1/3 [background-image:radial-gradient(circle,rgba(255,255,255,0.35)_1px,transparent_1.5px)] [background-size:14px_14px] opacity-40"
-          />
+            className="absolute top-0 left-0 right-0 h-[34%] overflow-hidden rounded-b-[50%] shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+          >
+            <div className="absolute inset-0 stadium-seats" />
+            <div className="absolute inset-0 stadium-crowd" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50" />
+            {/* Roof */}
+            <div className="absolute top-0 left-0 right-0 h-3 bg-black/70" />
+            <div className="absolute top-3 left-0 right-0 h-6 bg-gradient-to-b from-black/40 to-transparent" />
+          </motion.div>
+
+          {/* Left side stand (perspective) */}
+          <motion.div
+            style={{ opacity: crowdOpacity }}
+            className="absolute top-[14%] left-0 h-[55%] w-[28%] [clip-path:polygon(0%_0%,100%_15%,55%_100%,0%_100%)] shadow-[10px_0_40px_rgba(0,0,0,0.5)]"
+          >
+            <div className="absolute inset-0 stadium-seats" />
+            <div className="absolute inset-0 stadium-crowd" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/60" />
+          </motion.div>
+
+          {/* Right side stand (perspective) */}
+          <motion.div
+            style={{ opacity: crowdOpacity }}
+            className="absolute top-[14%] right-0 h-[55%] w-[28%] [clip-path:polygon(0%_15%,100%_0%,100%_100%,45%_100%)] shadow-[-10px_0_40px_rgba(0,0,0,0.5)]"
+          >
+            <div className="absolute inset-0 stadium-seats" />
+            <div className="absolute inset-0 stadium-crowd" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/60" />
+          </motion.div>
+
+          {/* Floodlight pylons */}
+          <motion.div style={{ opacity: floodlightOpacity }} className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-[6%] left-[6%] h-32 w-1.5 bg-white/30" />
+            <div className="absolute top-[5%] left-[6%] h-16 w-28 -translate-x-1/2 rounded-full bg-white/40 blur-2xl" />
+            <div className="absolute top-[5%] left-[6%] -translate-x-1/2 [clip-path:polygon(50%_0%,0%_100%,100%_100%)] h-[60vh] w-64 bg-gradient-to-b from-white/15 to-transparent" />
+
+            <div className="absolute top-[6%] right-[6%] h-32 w-1.5 bg-white/30" />
+            <div className="absolute top-[5%] right-[6%] h-16 w-28 translate-x-1/2 rounded-full bg-white/40 blur-2xl" />
+            <div className="absolute top-[5%] right-[6%] translate-x-1/2 [clip-path:polygon(50%_0%,0%_100%,100%_100%)] h-[60vh] w-64 bg-gradient-to-b from-white/15 to-transparent" />
+          </motion.div>
 
           {/* Pitch */}
           <motion.div
             style={{ y: pitchTranslateY }}
-            className="absolute bottom-0 left-0 right-0 h-2/3 bg-pitch"
+            className="absolute bottom-0 left-0 right-0 h-2/3 pitch-realistic [clip-path:polygon(8%_0%,92%_0%,100%_100%,0%_100%)] shadow-[0_-20px_60px_rgba(0,0,0,0.5)]"
           >
-            <div className="absolute inset-x-0 top-0 h-1 bg-white/70" />
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 h-28 w-28 rounded-full border-2 border-white/60" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-white/80" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 sm:w-96 h-20 border-2 border-t-0 border-white/60" />
+            {/* Touchline */}
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-white/80" />
+            {/* Halfway line */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-white/90" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[55%] sm:w-[40%] h-[1px] bg-white/0" />
+            {/* Centre circle */}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 h-24 w-24 sm:h-36 sm:w-36 rounded-full border-2 border-white/70" />
+            {/* Penalty box */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 sm:w-[28rem] h-24 sm:h-40 border-2 border-t-0 border-white/70" />
+            {/* 6-yard box */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 sm:w-52 h-10 sm:h-16 border-2 border-t-0 border-white/70" />
+            {/* Penalty arc */}
+            <div className="absolute top-24 sm:top-40 left-1/2 -translate-x-1/2 h-12 w-24 sm:h-16 sm:w-32 rounded-b-full border-2 border-t-0 border-white/70" />
+            {/* Corner arcs */}
+            <div className="absolute top-0 left-[8%] h-6 w-6 -translate-x-3 -translate-y-3 rounded-full border-2 border-white/70" />
+            <div className="absolute top-0 right-[8%] h-6 w-6 translate-x-3 -translate-y-3 rounded-full border-2 border-white/70" />
+            {/* Mown stripes overlay handled by .pitch-realistic */}
           </motion.div>
 
           {/* Final text */}
