@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum ParticipationStatus {
+  IN
+  OUT
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  username        String   @unique
+  passwordHash    String
+  firstName       String
+  lastName        String
+  photoUrl        String?
+  role            Role     @default(MEMBER)
+  favoritePosition String?
+  membershipPaid  Boolean  @default(false)
+  memberNumber    Int      @unique
+  createdAt       DateTime @default(now())
+
+  participations     Participation[]
+  guestRequests       GuestRequest[]       @relation("RequestedBy")
+  membershipRequests  MembershipRequest[]  @relation("MembershipRequestedBy")
+  votesGiven          Vote[]               @relation("VoterUser")
+  votesReceived       Vote[]               @relation("VotedForUser")
+  notifications       Notification[]
+}
+
+model Event {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  location      String
+  date          DateTime
+  endTime       DateTime
+  maxPlayers    Int      @default(22)
+  requirePaid   Boolean  @default(false)
+  formationA    String   @default("4-4-2")
+  formationB    String   @default("4-4-2")
+  motmFinalized Boolean  @default(false)
+  votingOpen    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  participations Participation[]
+  guestRequests  GuestRequest[]
+  votes          Vote[]
+}
+
+model Participation {
+  id             String              @id @default(cuid())
+  eventId        String
+  event          Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestFirstName String?
+  guestLastName  String?
+  isGuest        Boolean             @default(false)
+  status         ParticipationStatus @default(OUT)
+  team           String?
+  slotIndex      Int?
+  createdAt      DateTime            @default(now())
+
+  @@unique([eventId, userId])
+}
+
+model GuestRequest {
+  id             String        @id @default(cuid())
+  eventId        String
+  event          Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  requestedById  String
+  requestedBy    User          @relation("RequestedBy", fields: [requestedById], references: [id], onDelete: Cascade)
+  guestFirstName String
+  guestLastName  String
+  status         RequestStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+}
+
+model MembershipRequest {
+  id            String        @id @default(cuid())
+  requestedById String
+  requestedBy   User          @relation("MembershipRequestedBy", fields: [requestedById], references: [id], onDelete: Cascade)
+  firstName     String
+  lastName      String
+  email         String
+  status        RequestStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  eventId    String
+  event      Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  voterId    String
+  voter      User     @relation("VoterUser", fields: [voterId], references: [id], onDelete: Cascade)
+  votedForId String
+  votedFor   User     @relation("VotedForUser", fields: [votedForId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([eventId, voterId])
+}
+
+model InviteLink {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  email     String?
+  used      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id           String  @id @default("singleton")
+  heroTitle    String  @default("Olympique de Maisons-Laffitte")
+  heroSubtitle String  @default("Plus qu'un club, une famille")
+  aboutText    String  @default("")
+  motmUserId   String?
+  motmEventId  String?
+}
