@@ -7,6 +7,9 @@
   --oml-navy-light: #14336b;
   --oml-blue: #1e3a8a;
   --oml-gold: #d4af37;
+  --primary: var(--oml-gold);
+  --muted: #f1f3f9;
+  --border: rgba(10, 26, 63, 0.1);
 }
 
 @theme inline {
@@ -16,6 +19,9 @@
   --color-oml-navy-light: var(--oml-navy-light);
   --color-oml-blue: var(--oml-blue);
   --color-oml-gold: var(--oml-gold);
+  --color-primary: var(--primary);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

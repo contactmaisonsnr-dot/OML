@@ -35,7 +35,7 @@ export default function StadiumIntro({
   const finalTextY = useTransform(scrollYProgress, [0.7, 0.9], [40, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-black">
+    <section ref={containerRef} className="relative h-[400vh] -mt-20 bg-black">
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
         {/* Tunnel */}
         <motion.div

@@ -22,12 +22,12 @@ export default function NotificationsBell({
     <div className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="relative px-3 py-2 rounded-lg hover:bg-white/10 transition"
+        className="relative flex items-center justify-center h-9 w-9 rounded-full bg-background/5 border border-border backdrop-blur-lg text-foreground/80 hover:text-primary transition"
         aria-label="Notifications"
       >
         🔔
         {notifications.length > 0 && (
-          <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-oml-gold text-oml-navy text-[10px] font-bold flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-oml-gold text-oml-navy text-[10px] font-bold flex items-center justify-center">
             {notifications.length}
           </span>
         )}
